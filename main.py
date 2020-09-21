@@ -1,5 +1,6 @@
 from flask import Flask,request
 from urllib.request import urlopen
+from waitress import serve
 
 
 app = Flask(__name__)
@@ -8,39 +9,15 @@ app = Flask(__name__)
 def query_strings():
 
     qq = request.args['search']
-    print(qq)
+    
+    # calling the youtube API
+    # API Key - AIzaSyDAK5MbpcuM-GbmmSA9ySjg6UU3cvUhe_s
+    
     with urlopen('https://www.googleapis.com/youtube/v3/search?q='+qq+'&safeSearch=strict&alt=json&key=AIzaSyDAK5MbpcuM-GbmmSA9ySjg6UU3cvUhe_s') as r:
         text = r.read()
     return text
-  
 
-# def searchq(qq):
-#     # Disable OAuthlib's HTTPS verification when running locally.
-#     # *DO NOT* leave this option enabled in production.
-#     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
-
-#     api_service_name = "youtube"
-#     api_version = "v3"
-#     client_secrets_file = "YOUR_CLIENT_SECRET_FILE.json"
-
-#     # Get credentials and create an API client
-#     flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
-#         client_secrets_file, scopes)
-#     credentials = flow.run_console()
-#     youtube = googleapiclient.discovery.build(
-#         api_service_name, api_version, credentials=credentials)
-
-#     request = youtube.search().list(
-#         q=qq,
-#         safeSearch="strict",
-#         alt="json"
-#     )
-#     response = request.execute()
-
-#     print(response)
-
-# searchq("hello")
-
-if __name__ == "__main__":
-  app.run()
+if __name__ == "__main__": 
+    # aimsc API is running on localhost 5000 port
+    app.run(host='127.0.0.1', port=5000)
 
